@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UdemyAuthServer.Core.Configuration;
 
 namespace UdemyAuthServer.API
 {
@@ -29,7 +30,7 @@ namespace UdemyAuthServer.API
         {
 
             services.Configure<CustomTokenOptions>(Configuration.GetSection("TokenOption"));
-
+            services.Configure<List<Client>>(Configuration.GetSection("Client"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
