@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SharedLibrary.Configuration;
+using SharedLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,7 @@ using UdemyAuthServer.Core.UnitOfWork;
 using UdemyAuthServer.Data;
 using UdemyAuthServer.Data.Repositories;
 using UdemyAuthServer.Service.Services;
+using SharedLibrary.Extensions;
 
 namespace UdemyAuthServer.API
 {
@@ -85,8 +88,11 @@ namespace UdemyAuthServer.API
              });
 
             
-
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(options=>
+            {
+                options.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
+            services.UseCustomValidationReponse();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UdemyAuthServer.API", Version = "v1" });
@@ -102,7 +108,11 @@ namespace UdemyAuthServer.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UdemyAuthServer.API v1"));
             }
-
+            else
+            {
+                
+            }
+            app.UseCustomException();
             app.UseHttpsRedirection();
 
             app.UseRouting();

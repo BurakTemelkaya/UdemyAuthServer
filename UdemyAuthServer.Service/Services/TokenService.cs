@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SharedLibrary.Configuration;
+using SharedLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -60,7 +61,7 @@ namespace UdemyAuthServer.Service.Services
             claims.AddRange(client.Audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
 
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
-            new Claim(JwtRegisteredClaimNames.Sub, client.ClientId.ToString());
+            new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString());
 
             return claims;
         }
