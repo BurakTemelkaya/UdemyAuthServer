@@ -26,8 +26,9 @@ namespace UdemyAuthServer.API.Controllers
         {
             return ActionResultInstance(await _userService.CreateUserAsync(createUserDto));
         }
-        [Authorize]
+        
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUser()
         {
             return ActionResultInstance(await _userService.GetUserByNameAsync(HttpContext.User.Identity.Name));

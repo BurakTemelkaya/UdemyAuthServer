@@ -36,7 +36,7 @@ namespace UdemyAuthServer.API.Controllers
         [HttpPost]
         public async Task<IActionResult> RevokeRefreshToken(RefreshTokenDto refreshTokenDto)
         {
-            var result = await _authenticationService.CreateTokenByRefreshTokenAsync(refreshTokenDto.Token);
+            var result = await _authenticationService.RevokeRefreshTokenAsync(refreshTokenDto.Token);
 
             return ActionResultInstance(result);
         }

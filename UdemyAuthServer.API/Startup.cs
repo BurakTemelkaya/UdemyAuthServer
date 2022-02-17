@@ -52,6 +52,16 @@ namespace UdemyAuthServer.API
              })
             );
 
+            services.AddIdentity<UserApp, IdentityRole>(opt =>
+            {
+                opt.User.RequireUniqueEmail = true;
+                opt.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            services.Configure<CustomTokenOptions>(Configuration.GetSection("TokenOption"));
+
+            services.Configure<List<Client>>(Configuration.GetSection("Client"));
+
             var tokenOptions = Configuration.GetSection("TokenOption").Get<CustomTokenOptions>();
 
             services.AddAuthentication(options =>
@@ -74,13 +84,7 @@ namespace UdemyAuthServer.API
                  };
              });
 
-            services.AddIdentity<UserApp, IdentityRole>(opt =>
-            {
-                opt.User.RequireUniqueEmail = true;
-                opt.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-            services.Configure<CustomTokenOptions>(Configuration.GetSection("TokenOption"));
-            services.Configure<List<Client>>(Configuration.GetSection("Client"));
+            
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -37,10 +37,11 @@ namespace UdemyAuthServer.Service.Services
 
         public async Task<Response<UserAppDto>> GetUserByNameAsync(string userName)
         {
-            var user = await _userManager.FindByIdAsync(userName);
-            if (user==null)
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
             {
-                return Response<UserAppDto>.Fail("UserName not found",404,true);
+                return Response<UserAppDto>.Fail("UserName not found", 404, true);
             }
 
             return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
