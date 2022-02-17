@@ -60,8 +60,8 @@ namespace UdemyAuthServer.Service.Services
             var claims = new List<Claim>();
             claims.AddRange(client.Audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
 
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
-            new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString());
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()));
 
             return claims;
         }
